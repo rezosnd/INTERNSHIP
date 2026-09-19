@@ -7,20 +7,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export function ResourceShowcase({ feeAmount }: { feeAmount?: number }) {
   const resources = [
     {
-      title: "Offer Letter Template",
-      description: "Official internship offer letter and confidentiality agreement for your records.",
-      type: "PDF Document",
+      title: "69 Python Projects",
+      description: "A comprehensive collection of 69 Python projects to build your portfolio and master coding.",
+      type: "Code Repository",
       icon: FileText
     },
     {
-      title: "Internship Guide & Curriculum",
-      description: "Comprehensive step-by-step guide outlining your internship journey and project requirements.",
+      title: "Complete SQL Guide",
+      description: "Everything you need to know about SQL, from basic queries to advanced database management.",
       type: "Learning Material",
       icon: BookOpen
     },
     {
-      title: "Project Submission Guidelines",
-      description: "Detailed instructions on how to submit your final project for review and certification.",
+      title: "Complete HTML Resource",
+      description: "Master web development with this complete guide to HTML structure, semantics, and best practices.",
       type: "Reference Manual",
       icon: Download
     }
