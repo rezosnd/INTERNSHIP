@@ -5,6 +5,8 @@ import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2, CheckCircle } from "lucide-react";
 import Script from "next/script";
 
@@ -17,6 +19,7 @@ function PaymentContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [agreed, setAgreed] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -143,6 +146,59 @@ function PaymentContent() {
             </div>
           )}
           
+          <div className="mb-6">
+            <h3 className="font-semibold text-sm mb-2 text-[#07111F]">Terms & Conditions</h3>
+            <ScrollArea className="h-48 w-full rounded-md border p-4 bg-slate-50 text-xs text-muted-foreground leading-relaxed">
+              <p className="font-bold text-[#07111F] mb-2 uppercase">DISCLAIMER – INTERNSHIP PROGRAM FEE & EARLY TERMINATION</p>
+              <p className="mb-4">By enrolling in, paying for, or participating in any internship program offered by Veritasco (&quot;the Company&quot;), an early-stage startup, you expressly acknowledge, understand, and agree to the following terms and conditions:</p>
+              
+              <p className="font-semibold text-[#07111F] mt-2 mb-1">1. Nature and Purpose of the Fee</p>
+              <p className="mb-4">The fee charged by Veritasco in connection with its internship program is solely and exclusively for the provision of resources, including but not limited to training materials, mentorship, learning modules, digital tools, platforms, infrastructure, guidance, and other support services made available by the Company during the internship period.<br/><br/>This fee does not constitute a salary, stipend, wages, or any form of compensation for work performed by the intern. It is a fee for access to and utilization of the Company&apos;s resources and structured learning environment.</p>
+              
+              <p className="font-semibold text-[#07111F] mt-2 mb-1">2. Early-Stage Nature of the Company</p>
+              <p className="mb-4">Veritasco is an early-stage startup. As such, the resources, mentorship, and operational capacity provided are subject to the limitations inherent in a developing organization. Enrollment constitutes acceptance of these conditions.</p>
+              
+              <p className="font-semibold text-[#07111F] mt-2 mb-1">3. Non-Refundable Fee in Case of Early Withdrawal</p>
+              <p className="mb-4">In the event that an intern voluntarily withdraws, abandons, discontinues, or otherwise ceases participation in the internship program prior to the completion of the full estimated duration (as communicated at the time of enrollment or as stated in the offer letter/agreement), the entire fee paid shall be non-refundable.<br/><br/>Veritasco reserves the absolute right to retain the full amount, as access to resources and services was made available from the commencement of the program. No pro-rata refund, partial reimbursement, or credit shall be due or payable under any circumstances arising from early departure.</p>
+              
+              <p className="font-semibold text-[#07111F] mt-2 mb-1">4. No Employment Relationship</p>
+              <p className="mb-4">Participation in the internship program does not create an employer-employee relationship between the intern and Veritasco. The intern acknowledges that they are not entitled to any employment benefits, statutory protections applicable to employees, or compensation beyond the educational and resource-based value of the program.</p>
+              
+              <p className="font-semibold text-[#07111F] mt-2 mb-1">5. Acknowledgment and Acceptance</p>
+              <ul className="list-disc pl-4 mb-4 space-y-1">
+                <li>You have carefully read, understood, and agreed to this Disclaimer in its entirety;</li>
+                <li>You accept that the fee is charged strictly for the resources provided by Veritasco; and</li>
+                <li>You waive any claim for refund or reimbursement in the event of early withdrawal or termination of your participation before the estimated completion of the program.</li>
+              </ul>
+              
+              <p className="font-semibold text-[#07111F] mt-2 mb-1">6. Governing Terms</p>
+              <p className="mb-4">This Disclaimer forms an integral part of the terms governing your participation in the Veritasco internship program. Veritasco reserves the right to amend these terms at its sole discretion. Continued participation after any amendment shall constitute acceptance of the revised terms.</p>
+              
+              <p className="font-semibold text-[#07111F] mt-2 mb-1">Important Notice:</p>
+              <p>This Disclaimer is provided for informational and contractual clarity purposes only and does not constitute formal legal advice. Veritasco strongly recommends that participants seek independent legal counsel to understand their rights and obligations under applicable laws before enrolling or making any payment.</p>
+            </ScrollArea>
+          </div>
+
+          <div className="flex items-start space-x-3 mb-6 bg-blue-50 p-3 rounded-lg border border-blue-100">
+            <Checkbox 
+              id="terms" 
+              checked={agreed} 
+              onCheckedChange={(checked) => setAgreed(checked as boolean)}
+              className="mt-1"
+            />
+            <div className="grid gap-1.5 leading-none">
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-tight peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#07111F] cursor-pointer"
+              >
+                I agree to the Terms and Conditions
+              </label>
+              <p className="text-xs text-muted-foreground">
+                I have read and understood the disclaimer regarding the non-refundable fee and the nature of the internship program.
+              </p>
+            </div>
+          </div>
+          
           <ul className="space-y-2 text-sm text-muted-foreground mb-6">
             <li className="flex gap-2">✓ Access to project resources</li>
             <li className="flex gap-2">✓ Verified completion certificate</li>
@@ -151,12 +207,12 @@ function PaymentContent() {
         </CardContent>
         <CardFooter>
           <Button 
-            className="w-full" 
+            className="w-full h-12 text-md font-bold transition-all" 
             size="lg" 
             onClick={handlePayment}
-            disabled={isLoading || status !== "authenticated"}
+            disabled={isLoading || status !== "authenticated" || !agreed}
           >
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
             Pay ₹1 securely
           </Button>
         </CardFooter>
