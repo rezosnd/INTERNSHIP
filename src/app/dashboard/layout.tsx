@@ -1,7 +1,8 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { LayoutDashboard, FileText, CreditCard, Award, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, FileText, CreditCard, Award, Settings, LogOut, BookOpen } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { LogoutButton } from "@/components/auth/LogoutButton";
@@ -13,9 +14,16 @@ export default async function DashboardLayout({ children }: { children: React.Re
     redirect("/login");
   }
 
+  const application = await prisma.internshipApplication.findFirst({
+    where: { userId: session.user.id },
+  });
+
+  const hasPaid = application && application.status !== "PAYMENT_PENDING" && application.status !== "SUBMITTED";
+
   const navItems = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Application Details", href: "/dashboard#application", icon: FileText },
+    ...(hasPaid ? [{ name: "Resources", href: "/dashboard/resources", icon: BookOpen }] : []),
     { name: "Certificate", href: "/dashboard#certificate", icon: Award },
   ];
 
