@@ -6,13 +6,19 @@ import { ProcessTimeline } from "@/components/home/ProcessTimeline";
 import { CertificateShowcase } from "@/components/home/CertificateShowcase";
 import { PricingSection } from "@/components/home/PricingSection";
 import { Metadata } from "next";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "VeritasCo.Tech Internship Program | Build. Learn. Prove.",
   description: "Build a real-world project with VeritasCo.Tech, submit your work, and receive a professionally verifiable internship certificate.",
 };
 
-export default function Home() {
+export default async function Home() {
+  const settings = await prisma.platformSettings.findUnique({
+    where: { id: "global" },
+  });
+  const feeAmount = settings?.feeAmount ?? 349;
+
   return (
     <main className="flex min-h-screen flex-col">
       <HeroSection />
@@ -21,7 +27,7 @@ export default function Home() {
       <DomainExplorer />
       <ProcessTimeline />
       <CertificateShowcase />
-      <PricingSection />
+      <PricingSection feeAmount={feeAmount} />
     </main>
   );
 }

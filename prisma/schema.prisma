@@ -226,3 +226,10 @@ model AdminActionLog {
 
   admin User @relation(fields: [adminId], references: [id], onDelete: Cascade)
 }
+
+// Platform Settings (Singleton)
+model PlatformSettings {
+  id        String   @id @default("global") // Should only ever be one row with id "global"
+  feeAmount Int      @default(349) // Amount in INR
+  updatedAt DateTime @updatedAt
+}

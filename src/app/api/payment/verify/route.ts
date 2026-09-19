@@ -43,6 +43,12 @@ export async function POST(req: Request) {
       return Response.json({ error: "Application not found" }, { status: 404 });
     }
 
+    // Fetch dynamic fee
+    let settings = await prisma.platformSettings.findUnique({
+      where: { id: "global" },
+    });
+    const feeInINR = settings?.feeAmount ?? 349;
+
     // Process payment in a transaction
     await prisma.$transaction(async (tx: any) => {
       // Create Payment Record
@@ -53,7 +59,7 @@ export async function POST(req: Request) {
           razorpayOrderId: razorpay_order_id,
           razorpayPaymentId: razorpay_payment_id,
           razorpaySignature: razorpay_signature,
-          amount: 100, // 1 INR in paise (testing)
+          amount: feeInINR * 100, // Dynamic fee in paise
           currency: "INR",
           status: "SUCCESS",
           paidAt: new Date(),

@@ -36,7 +36,15 @@ export async function POST(req: Request) {
       return Response.json({ error: "Application is not pending payment" }, { status: 400 });
     }
 
-    const amount = 1 * 100; // 1 INR in paise (testing)
+    // Fetch dynamic fee
+    let settings = await prisma.platformSettings.findUnique({
+      where: { id: "global" },
+    });
+    
+    // Fallback if settings don't exist yet
+    const feeInINR = settings?.feeAmount ?? 349;
+
+    const amount = feeInINR * 100; // INR to paise
     const currency = "INR";
     const receipt = `rcpt_${application.id.substring(0, 10)}`;
 

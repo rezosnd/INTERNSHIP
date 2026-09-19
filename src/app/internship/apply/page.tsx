@@ -35,10 +35,15 @@ export default async function ApplyPage() {
     orderBy: { name: "asc" },
   });
 
+  const settings = await prisma.platformSettings.findUnique({
+    where: { id: "global" },
+  });
+  const feeAmount = settings?.feeAmount ?? 349;
+
   return (
     <div className="min-h-screen bg-[#F7F8FA] pt-24 pb-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <MultiStepApplyForm domains={domains} profile={profile} />
+        <MultiStepApplyForm domains={domains} profile={profile} feeAmount={feeAmount} />
       </div>
     </div>
   );

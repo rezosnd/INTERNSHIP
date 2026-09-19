@@ -25,7 +25,7 @@ const steps = [
   { id: 5, title: "Review" }
 ];
 
-export default function MultiStepApplyForm({ domains, profile }: { domains: Domain[], profile: Profile }) {
+export default function MultiStepApplyForm({ domains, profile, feeAmount }: { domains: Domain[], profile: Profile, feeAmount: number }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -336,7 +336,7 @@ export default function MultiStepApplyForm({ domains, profile }: { domains: Doma
                   <h4 className="font-bold text-[#07111F]">Internship & Processing Fee</h4>
                   <p className="text-sm text-muted-foreground">One-time payment</p>
                 </div>
-                <div className="text-2xl font-black text-[#07111F]">₹1</div>
+                <div className="text-2xl font-black text-[#07111F]">₹{feeAmount}</div>
               </div>
             </div>
           </div>

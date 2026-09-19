@@ -10,7 +10,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2, CheckCircle } from "lucide-react";
 import Script from "next/script";
 
-function PaymentContent() {
+import { prisma } from "@/lib/prisma";
+
+function PaymentContent({ feeAmount }: { feeAmount: number }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -137,7 +139,7 @@ function PaymentContent() {
         <CardContent>
           <div className="bg-muted p-4 rounded-lg flex justify-between items-center mb-6">
             <span className="font-medium">Registration Fee</span>
-            <span className="text-xl font-bold">₹1</span>
+            <span className="text-xl font-bold">₹{feeAmount}</span>
           </div>
           
           {error && (
@@ -213,7 +215,7 @@ function PaymentContent() {
             disabled={isLoading || status !== "authenticated" || !agreed}
           >
             {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-            Pay ₹1 securely
+            Pay ₹{feeAmount} securely
           </Button>
         </CardFooter>
       </Card>
@@ -221,11 +223,16 @@ function PaymentContent() {
   );
 }
 
-export default function PaymentPage() {
+export default async function PaymentPage() {
+  let settings = await prisma.platformSettings.findUnique({
+    where: { id: "global" },
+  });
+  const feeAmount = settings?.feeAmount ?? 349;
+
   return (
     <div className="min-h-screen bg-background p-4">
       <Suspense fallback={<div className="flex justify-center p-8"><Loader2 className="animate-spin w-8 h-8" /></div>}>
-        <PaymentContent />
+        <PaymentContent feeAmount={feeAmount} />
       </Suspense>
     </div>
   );
