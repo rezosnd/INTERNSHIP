@@ -43,9 +43,13 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-4"
           >
-            <span className="text-primary font-semibold tracking-widest text-sm uppercase">
+            <span className="text-primary font-semibold tracking-widest text-sm uppercase flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               VeritasCo.Tech · Internship Program
             </span>
+            <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white/90 text-xs font-semibold uppercase tracking-widest">
+              <span className="text-emerald-400">✓</span> MSME Registered Company
+            </div>
           </motion.div>
 
           <div className="flex flex-col gap-2 mb-8">

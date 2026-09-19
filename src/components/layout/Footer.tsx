@@ -17,9 +17,12 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block mb-6">
+            <Link href="/" className="inline-block mb-4">
               <Image src="/images/veritasco.png" alt="VeritasCo Logo" width={160} height={40} className="h-8 w-auto object-contain brightness-0 invert" />
             </Link>
+            <div className="mb-6 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/80 text-[10px] font-semibold uppercase tracking-widest">
+              <span className="text-emerald-400">✓</span> MSME Registered Company
+            </div>
             <p className="text-white/60 text-lg mb-8 max-w-sm">
               Build a real-world project, showcase your skills, and earn a professionally verifiable internship certificate.
             </p>

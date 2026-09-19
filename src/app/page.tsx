@@ -4,6 +4,7 @@ import { TransitionSection } from "@/components/home/TransitionSection";
 import { DomainExplorer } from "@/components/home/DomainExplorer";
 import { ProcessTimeline } from "@/components/home/ProcessTimeline";
 import { CertificateShowcase } from "@/components/home/CertificateShowcase";
+import { ResourceShowcase } from "@/components/home/ResourceShowcase";
 import { PricingSection } from "@/components/home/PricingSection";
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
@@ -27,6 +28,7 @@ export default async function Home() {
       <DomainExplorer />
       <ProcessTimeline />
       <CertificateShowcase />
+      <ResourceShowcase feeAmount={feeAmount} />
       <PricingSection feeAmount={feeAmount} />
     </main>
   );
