@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     }
 
     // Process payment in a transaction
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: any) => {
       // Create Payment Record
       await tx.payment.create({
         data: {

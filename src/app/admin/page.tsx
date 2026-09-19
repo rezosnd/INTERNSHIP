@@ -144,7 +144,7 @@ export default async function AdminDashboard() {
                     </td>
                   </tr>
                 ) : (
-                  applications.map((app) => (
+                  applications.map((app: any) => (
                     <tr key={app.id} className="hover:bg-muted/30 transition-colors">
                       <td className="px-6 py-4">
                         <div className="font-medium text-[#07111F]">
