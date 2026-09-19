@@ -1,0 +1,228 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum InternshipStatus {
+  DRAFT
+  SUBMITTED
+  PAYMENT_PENDING
+  PAID
+  UNDER_REVIEW
+  APPROVED
+  CERTIFICATE_PROCESSING
+  CERTIFICATE_ISSUED
+  REJECTED
+}
+
+enum PaymentStatus {
+  PENDING
+  CREATED
+  SUCCESS
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+enum CertificateStatus {
+  PROCESSING
+  ISSUED
+  REVOKED
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+// NextAuth Models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  googleId      String?   @unique
+  role          Role      @default(STUDENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts               Account[]
+  sessions               Session[]
+  studentProfile         StudentProfile?
+  internshipApplications InternshipApplication[]
+  payments               Payment[]
+  adminActionLogs        AdminActionLog[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Domain Model
+model Domain {
+  id          String   @id @default(cuid())
+  name        String   @unique // e.g. "Web Development", "Data Science"
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  applications InternshipApplication[]
+}
+
+// Student Profile
+model StudentProfile {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  fullName       String
+  phone          String
+  instituteName  String
+  course         String
+  branch         String
+  graduationYear String
+  studentId      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Internship Application
+model InternshipApplication {
+  id                 String           @id @default(cuid())
+  applicationNumber  String           @unique
+  userId             String
+  domainId           String
+  status             InternshipStatus @default(DRAFT)
+  projectTitle       String
+  projectDescription String           @db.Text
+  githubUrl          String
+  liveUrl            String?
+  technologies       String[]
+  startDate          DateTime
+  completionDate     DateTime
+  duration           String // e.g. "1-2 months"
+  features           String           @db.Text
+  contribution       String           @db.Text
+  challenges         String           @db.Text
+  learningOutcome    String           @db.Text
+  submittedAt        DateTime?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  domain      Domain       @relation(fields: [domainId], references: [id], onDelete: Cascade)
+  payment     Payment?
+  certificate Certificate?
+}
+
+// Payment Model
+model Payment {
+  id                String        @id @default(cuid())
+  applicationId     String        @unique
+  userId            String
+  razorpayOrderId   String        @unique
+  razorpayPaymentId String?       @unique
+  razorpaySignature String?
+  amount            Int // Amount in paise
+  currency          String        @default("INR")
+  status            PaymentStatus @default(PENDING)
+  paidAt            DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  application InternshipApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  user        User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Certificate Model
+model Certificate {
+  id                   String            @id @default(cuid())
+  certificateId        String            @unique // VC-2026-XXXXXX
+  applicationId        String            @unique
+  studentNameSnapshot  String
+  instituteSnapshot    String
+  domainSnapshot       String
+  projectTitleSnapshot String
+  startDateSnapshot    DateTime
+  endDateSnapshot      DateTime
+  issueDate            DateTime
+  status               CertificateStatus @default(PROCESSING)
+  pdfUrl               String? // Storage reference
+  verificationUrl      String
+  revokedAt            DateTime?
+  revocationReason     String?           @db.Text
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  application InternshipApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+}
+
+// Email Log
+model EmailLog {
+  id            String      @id @default(cuid())
+  recipient     String
+  subject       String
+  type          String // e.g. "APPLICATION_RECEIVED", "PAYMENT_SUCCESS", "CERTIFICATE_ISSUED"
+  status        EmailStatus @default(PENDING)
+  certificateId String?
+  applicationId String?
+  sentAt        DateTime?
+  failureReason String?     @db.Text
+  createdAt     DateTime    @default(now())
+}
+
+// Admin Action Log
+model AdminActionLog {
+  id         String   @id @default(cuid())
+  adminId    String
+  action     String // e.g. "APPLICATION_APPROVED", "CERTIFICATE_GENERATED"
+  targetType String // e.g. "InternshipApplication", "Certificate"
+  targetId   String
+  metadata   String?  @db.Text // JSON string
+  timestamp  DateTime @default(now())
+
+  admin User @relation(fields: [adminId], references: [id], onDelete: Cascade)
+}
