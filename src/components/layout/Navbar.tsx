@@ -40,6 +40,10 @@ export function Navbar() {
   const isHomePage = pathname === "/";
   const transparentBg = isHomePage && !isScrolled;
 
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${

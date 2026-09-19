@@ -15,9 +15,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   const navItems = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Application", href: "/dashboard/application", icon: FileText },
-    { name: "Payment", href: "/dashboard/payment", icon: CreditCard },
-    { name: "Certificate", href: "/dashboard/certificate", icon: Award },
+    { name: "Application Details", href: "/dashboard#application", icon: FileText },
+    { name: "Certificate", href: "/dashboard#certificate", icon: Award },
   ];
 
   return (

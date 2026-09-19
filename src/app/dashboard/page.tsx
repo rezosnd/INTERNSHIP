@@ -120,7 +120,7 @@ export default async function DashboardPage() {
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="border-border shadow-sm">
+        <Card id="application" className="border-border shadow-sm">
           <CardHeader>
             <CardTitle>Project Details</CardTitle>
             <CardDescription>The information submitted for review.</CardDescription>
@@ -145,7 +145,7 @@ export default async function DashboardPage() {
         </Card>
 
         {application.certificate?.status === "ISSUED" ? (
-          <Card className="bg-[#07111F] text-white border-0 shadow-lg relative overflow-hidden">
+          <Card id="certificate" className="bg-[#07111F] text-white border-0 shadow-lg relative overflow-hidden">
             <div className="absolute inset-0 opacity-10 bg-[url('/images/hero/hero-bg.jpg')] bg-cover mix-blend-overlay" />
             <CardHeader className="relative z-10">
               <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mb-4">
@@ -175,7 +175,7 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
         ) : (
-          <Card className="border-border shadow-sm bg-muted/30">
+          <Card id="certificate" className="border-border shadow-sm bg-muted/30">
             <CardHeader>
               <CardTitle>Certificate Status</CardTitle>
               <CardDescription>Your certificate is being processed.</CardDescription>
