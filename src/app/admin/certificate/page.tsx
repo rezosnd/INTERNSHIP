@@ -7,12 +7,20 @@ import { Download, ChevronLeft, Send, Code, Globe, Loader2, Info } from "lucide-
 import Link from "next/link"
 import * as htmlToImage from "html-to-image"
 import jsPDF from "jspdf"
-import { useState, useEffect } from "react"
+import { Suspense, useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { useCertificateStore } from "@/store/useCertificateStore"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function CertificateEditorPage() {
+  return (
+    <Suspense fallback={<div className="h-screen w-full bg-[#0d1424] flex items-center justify-center text-white"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+      <CertificateEditorContent />
+    </Suspense>
+  )
+}
+
+function CertificateEditorContent() {
   const searchParams = useSearchParams()
   const applicationId = searchParams?.get("applicationId")
   
