@@ -149,7 +149,7 @@ function PaymentContentInternal({ feeAmount }: { feeAmount: number }) {
           <div className="mb-6">
             <h3 className="font-semibold text-sm mb-2 text-[#07111F]">Terms & Conditions</h3>
             <ScrollArea className="h-48 w-full rounded-md border p-4 bg-slate-50 text-xs text-muted-foreground leading-relaxed">
-              <p className="font-bold text-[#07111F] mb-2 uppercase">DISCLAIMER – INTERNSHIP PROGRAM FEE & EARLY TERMINATION</p>
+              <p className="font-bold text-red-600 mb-2 uppercase text-sm">DISCLAIMER – INTERNSHIP PROGRAM FEE & EARLY TERMINATION</p>
               <p className="mb-4">By enrolling in, paying for, or participating in any internship program offered by Veritasco (&quot;the Company&quot;), an early-stage startup, you expressly acknowledge, understand, and agree to the following terms and conditions:</p>
               
               <p className="font-semibold text-[#07111F] mt-2 mb-1">1. Nature and Purpose of the Fee</p>
