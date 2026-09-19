@@ -1,13 +1,13 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Loader2, CheckCircle } from "lucide-react";
+import { Loader2, CheckCircle, LogOut } from "lucide-react";
 import Script from "next/script";
 
 function PaymentContentInternal({ feeAmount }: { feeAmount: number }) {
@@ -130,9 +130,14 @@ function PaymentContentInternal({ feeAmount }: { feeAmount: number }) {
     <>
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <Card className="max-w-md mx-auto mt-20">
-        <CardHeader>
-          <CardTitle>Complete Registration</CardTitle>
-          <CardDescription>Pay the registration fee to start your internship.</CardDescription>
+        <CardHeader className="flex flex-row items-start justify-between space-y-0">
+          <div>
+            <CardTitle>Complete Registration</CardTitle>
+            <CardDescription>Pay the registration fee to start your internship.</CardDescription>
+          </div>
+          <Button variant="ghost" size="icon" onClick={() => signOut({ callbackUrl: "/login" })} title="Logout">
+            <LogOut className="h-5 w-5" />
+          </Button>
         </CardHeader>
         <CardContent>
           <div className="bg-muted p-4 rounded-lg flex justify-between items-center mb-6">
@@ -150,12 +155,12 @@ function PaymentContentInternal({ feeAmount }: { feeAmount: number }) {
             <h3 className="font-semibold text-sm mb-2 text-[#07111F]">Terms & Conditions</h3>
             <ScrollArea className="h-48 w-full rounded-md border p-4 bg-slate-50 text-xs text-muted-foreground leading-relaxed">
               <p className="font-bold text-red-600 mb-2 uppercase text-sm">DISCLAIMER – INTERNSHIP PROGRAM FEE & EARLY TERMINATION</p>
-              <p className="mb-4">By enrolling in, paying for, or participating in any internship program offered by Veritasco (&quot;the Company&quot;), an early-stage startup, you expressly acknowledge, understand, and agree to the following terms and conditions:</p>
+              <p className="mb-4">By enrolling in, paying for, or participating in any internship program offered by Veritasco (an MSME Registered enterprise), an early-stage startup, you expressly acknowledge, understand, and agree to the following terms and conditions:</p>
               
               <p className="font-semibold text-[#07111F] mt-2 mb-1">1. Nature and Purpose of the Fee</p>
-              <p className="mb-4">The fee charged by Veritasco in connection with its internship program is solely and exclusively for the provision of resources, including but not limited to training materials, mentorship, learning modules, digital tools, platforms, infrastructure, guidance, and other support services made available by the Company during the internship period.<br/><br/>This fee does not constitute a salary, stipend, wages, or any form of compensation for work performed by the intern. It is a fee for access to and utilization of the Company&apos;s resources and structured learning environment.</p>
+              <p className="mb-4">The fee charged by Veritasco in connection with its internship program is solely and exclusively for the provision of resources, including but not limited to training materials, mentorship, learning modules, digital tools, platforms, infrastructure, guidance, and other support services made available by Veritasco during the internship period.<br/><br/>This fee does not constitute a salary, stipend, wages, or any form of compensation for work performed by the intern. It is a fee for access to and utilization of Veritasco&apos;s resources and structured learning environment.</p>
               
-              <p className="font-semibold text-[#07111F] mt-2 mb-1">2. Early-Stage Nature of the Company</p>
+              <p className="font-semibold text-[#07111F] mt-2 mb-1">2. Early-Stage Nature of Veritasco</p>
               <p className="mb-4">Veritasco is an early-stage startup. As such, the resources, mentorship, and operational capacity provided are subject to the limitations inherent in a developing organization. Enrollment constitutes acceptance of these conditions.</p>
               
               <p className="font-semibold text-[#07111F] mt-2 mb-1">3. Non-Refundable Fee in Case of Early Withdrawal</p>
