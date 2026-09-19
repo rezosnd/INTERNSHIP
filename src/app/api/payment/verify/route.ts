@@ -53,7 +53,7 @@ export async function POST(req: Request) {
           razorpayOrderId: razorpay_order_id,
           razorpayPaymentId: razorpay_payment_id,
           razorpaySignature: razorpay_signature,
-          amount: 34900,
+          amount: 100, // 1 INR in paise (testing)
           currency: "INR",
           status: "SUCCESS",
           paidAt: new Date(),

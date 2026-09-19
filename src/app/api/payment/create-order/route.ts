@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       return Response.json({ error: "Application is not pending payment" }, { status: 400 });
     }
 
-    const amount = 349 * 100; // 349 INR in paise
+    const amount = 1 * 100; // 1 INR in paise (testing)
     const currency = "INR";
     const receipt = `rcpt_${application.id.substring(0, 10)}`;
 

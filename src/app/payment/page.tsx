@@ -134,7 +134,7 @@ function PaymentContent() {
         <CardContent>
           <div className="bg-muted p-4 rounded-lg flex justify-between items-center mb-6">
             <span className="font-medium">Registration Fee</span>
-            <span className="text-xl font-bold">₹349</span>
+            <span className="text-xl font-bold">₹1</span>
           </div>
           
           {error && (
@@ -157,7 +157,7 @@ function PaymentContent() {
             disabled={isLoading || status !== "authenticated"}
           >
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Pay ₹349 securely
+            Pay ₹1 securely
           </Button>
         </CardFooter>
       </Card>

@@ -48,7 +48,7 @@ export function PricingSection() {
                 <div className="text-right">
                   <div className="flex items-start justify-end text-white">
                     <span className="text-2xl font-semibold mt-2 mr-1">₹</span>
-                    <span className="text-6xl font-black tracking-tighter">349</span>
+                    <span className="text-6xl font-black tracking-tighter">1</span>
                   </div>
                   <p className="text-white/60 text-sm mt-1">One-time processing fee</p>
                 </div>
@@ -82,7 +82,7 @@ export function PricingSection() {
 
               <Link href="/login" className="block w-full">
                 <button className="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-2 group">
-                  Start Internship — ₹349
+                  Start Internship - ₹1
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </Link>

@@ -336,7 +336,7 @@ export default function MultiStepApplyForm({ domains, profile }: { domains: Doma
                   <h4 className="font-bold text-[#07111F]">Internship & Processing Fee</h4>
                   <p className="text-sm text-muted-foreground">One-time payment</p>
                 </div>
-                <div className="text-2xl font-black text-[#07111F]">₹349</div>
+                <div className="text-2xl font-black text-[#07111F]">₹1</div>
               </div>
             </div>
           </div>
