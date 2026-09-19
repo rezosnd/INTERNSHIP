@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   description: "Build a real-world project with VeritasCo.Tech, submit your work, and receive a professionally verifiable internship certificate.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const settings = await prisma.platformSettings.findUnique({
     where: { id: "global" },
