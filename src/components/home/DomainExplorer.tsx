@@ -200,7 +200,7 @@ export function DomainExplorer() {
                   }`}
                 >
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-500 ${
-                    isActive ? \`bg-gradient-to-br \${domain.color}\` : "bg-muted"
+                    isActive ? `bg-gradient-to-br ${domain.color}` : "bg-muted"
                   }`}>
                     <Icon className={`w-6 h-6 transition-colors duration-500 ${isActive ? "text-[#07111F]" : ""}`} />
                   </div>
