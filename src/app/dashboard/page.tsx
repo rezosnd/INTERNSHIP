@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { CheckCircle2, Circle, ArrowRight, ShieldCheck, Download, Award } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { OfferLetterView } from "@/components/dashboard/OfferLetterView";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -58,9 +59,7 @@ export default async function DashboardPage() {
     );
   }
 
-  if (application.status === "PAYMENT_PENDING") {
-    redirect(`/payment?applicationId=${application.id}`);
-  }
+  // Removed redirect for PAYMENT_PENDING to show Offer Letter instead
 
   // Determine active step for timeline
   const getTimelineStep = () => {
@@ -91,6 +90,24 @@ export default async function DashboardPage() {
         <h1 className="text-3xl font-bold tracking-tight text-[#07111F]">Welcome back, {profile.fullName.split(" ")[0]}</h1>
         <p className="text-muted-foreground mt-2 text-lg">Track your VeritasCo internship journey.</p>
       </div>
+
+      {application.status === "PAYMENT_PENDING" && (
+        <OfferLetterView application={application} profile={profile} />
+      )}
+
+      {application.status === "SUBMITTED" && (
+        <Card className="bg-muted/30 border-dashed border-2 shadow-none overflow-hidden relative">
+          <CardContent className="p-10 flex flex-col items-center justify-center text-center">
+            <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
+              <ShieldCheck className="w-8 h-8" />
+            </div>
+            <h2 className="text-2xl font-bold text-[#07111F] mb-3">Application Under Review</h2>
+            <p className="text-muted-foreground max-w-md text-lg">
+              Our team is currently reviewing your application details. Please check back later for your Offer Letter.
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Progress Timeline */}
       <Card className="border-border shadow-sm">

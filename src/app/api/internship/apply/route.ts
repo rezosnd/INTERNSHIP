@@ -48,7 +48,8 @@ export async function POST(req: Request) {
         contribution: "",
         challenges: "",
         learningOutcome: "",
-        status: "PAYMENT_PENDING",
+        status: "SUBMITTED",
+        submittedAt: new Date(),
       },
     });
 

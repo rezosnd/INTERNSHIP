@@ -148,6 +148,7 @@ model InternshipApplication {
   contribution       String           @db.Text
   challenges         String           @db.Text
   learningOutcome    String           @db.Text
+  offerLetterSentAt  DateTime?
   submittedAt        DateTime?
   createdAt          DateTime         @default(now())
   updatedAt          DateTime         @updatedAt

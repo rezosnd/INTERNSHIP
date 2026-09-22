@@ -10,6 +10,8 @@ import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SettingsPanel } from "./SettingsPanel";
 
+import { SendOfferButton } from "@/components/admin/SendOfferButton";
+
 export default async function AdminDashboard() {
   const session = await getServerSession(authOptions);
 
@@ -194,12 +196,16 @@ export default async function AdminDashboard() {
                             )}
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <Link href={`/admin/certificate?applicationId=${app.id}`}>
-                              <Button variant="outline" size="sm" className="h-8">
-                                Generate
-                                <ChevronRight className="w-4 h-4 ml-1" />
-                              </Button>
-                            </Link>
+                            {app.status === "SUBMITTED" ? (
+                              <SendOfferButton applicationId={app.id} />
+                            ) : (
+                              <Link href={`/admin/certificate?applicationId=${app.id}`}>
+                                <Button variant="outline" size="sm" className="h-8">
+                                  Generate
+                                  <ChevronRight className="w-4 h-4 ml-1" />
+                                </Button>
+                              </Link>
+                            )}
                           </td>
                         </tr>
                       ))
