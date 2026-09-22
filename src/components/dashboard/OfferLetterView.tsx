@@ -17,6 +17,7 @@ interface OfferLetterProps {
 export function OfferLetterView({ application, profile }: OfferLetterProps) {
   const [showFullLetter, setShowFullLetter] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isAccepted, setIsAccepted] = useState(false);
   const letterRef = useRef<HTMLDivElement>(null);
 
   const issueDate = application.offerLetterSentAt 
@@ -154,7 +155,7 @@ export function OfferLetterView({ application, profile }: OfferLetterProps) {
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
+      <div className="flex flex-col sm:flex-row justify-end gap-4 pt-8">
         <Button 
           variant="outline" 
           size="lg" 
@@ -164,12 +165,30 @@ export function OfferLetterView({ application, profile }: OfferLetterProps) {
         >
           {isDownloading ? "Generating PDF..." : "Download as PDF"}
         </Button>
-        <Link href={`/payment?applicationId=${application.id}`}>
-          <Button size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 w-full sm:w-auto">
-            Accept Offer & Proceed to Payment
-            <ArrowRight className="w-5 h-5 ml-2" />
+        
+        {!isAccepted ? (
+          <Button 
+            size="lg" 
+            onClick={() => setIsAccepted(true)}
+            className="h-14 px-8 text-lg bg-[#07111F] hover:bg-[#0a1a2f] text-white shadow-lg w-full sm:w-auto"
+          >
+            Accept Offer
+            <CheckCircle2 className="w-5 h-5 ml-2" />
           </Button>
-        </Link>
+        ) : (
+          <div className="flex flex-col sm:flex-row items-center gap-4 animate-in fade-in zoom-in duration-300">
+            <div className="flex items-center text-emerald-600 font-semibold bg-emerald-50 px-4 h-14 rounded-md border border-emerald-200">
+              <CheckCircle2 className="w-5 h-5 mr-2" />
+              Offer Accepted
+            </div>
+            <Link href={`/payment?applicationId=${application.id}`}>
+              <Button size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 w-full sm:w-auto">
+                Proceed to Payment
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
