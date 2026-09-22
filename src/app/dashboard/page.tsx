@@ -191,6 +191,30 @@ export default async function DashboardPage() {
               </div>
             </CardContent>
           </Card>
+        ) : application.status === "PAYMENT_PENDING" ? (
+          <Card id="certificate" className="border-border shadow-sm bg-muted/10">
+            <CardHeader>
+              <CardTitle>Action Required</CardTitle>
+              <CardDescription>Proceed to payment for the next process.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col items-center justify-center text-center p-6 border-2 border-dashed border-primary/20 bg-primary/5 rounded-xl">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                  <ArrowRight className="w-6 h-6 text-primary" />
+                </div>
+                <p className="font-semibold text-[#07111F] mb-2">Next Step: Payment</p>
+                <p className="text-sm text-muted-foreground mb-5">
+                  Your offer is ready. Please complete the payment to start your internship and eventually earn your certificate.
+                </p>
+                <Link href={`/payment?applicationId=${application.id}`}>
+                  <Button className="bg-primary hover:bg-primary/90 text-white px-8">
+                    Proceed to Payment
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
         ) : (
           <Card id="certificate" className="border-border shadow-sm bg-muted/30">
             <CardHeader>
