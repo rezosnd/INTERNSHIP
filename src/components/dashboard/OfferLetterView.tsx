@@ -181,15 +181,15 @@ export function OfferLetterView({ application, profile }: OfferLetterProps) {
             <CheckCircle2 className="w-5 h-5 ml-2" />
           </Button>
         ) : (
-          <div className="flex flex-col sm:flex-row items-center gap-4 animate-in fade-in zoom-in duration-300">
-            <div className="flex items-center text-emerald-600 font-semibold bg-emerald-50 px-4 h-14 rounded-md border border-emerald-200">
-              <CheckCircle2 className="w-5 h-5 mr-2" />
-              Offer Accepted
+          <div className="flex flex-col items-center gap-6 animate-in fade-in zoom-in duration-300 w-full mt-8">
+            <div className="flex items-center text-emerald-600 font-bold bg-emerald-50 px-6 h-14 rounded-full border border-emerald-200 text-lg">
+              <CheckCircle2 className="w-6 h-6 mr-2" />
+              Offer Accepted Successfully
             </div>
-            <Link href={`/payment?applicationId=${application.id}`}>
-              <Button size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 w-full sm:w-auto">
-                Proceed to Payment
-                <ArrowRight className="w-5 h-5 ml-2" />
+            <Link href={`/payment?applicationId=${application.id}`} className="w-full">
+              <Button size="lg" className="h-24 px-12 text-2xl md:text-4xl font-black bg-primary hover:bg-primary/90 text-white shadow-2xl shadow-primary/40 w-full animate-pulse hover:animate-none transition-transform hover:scale-[1.02] rounded-2xl">
+                PROCEED TO PAYMENT
+                <ArrowRight className="w-10 h-10 ml-4" />
               </Button>
             </Link>
           </div>
