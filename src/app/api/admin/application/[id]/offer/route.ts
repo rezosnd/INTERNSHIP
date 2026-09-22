@@ -71,20 +71,21 @@ export async function POST(
     <title>Internship Offer Letter — VeritasCo</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f2f2f2; margin: 0; padding: 0; }
-        .email-wrapper { padding: 24px 16px; width: 100%; box-sizing: border-box; }
-        .email-card { max-width: 560px; margin: 0 auto; background-color: #ffffff; border-radius: 4px; border: 1px solid #d9d9d9; overflow: hidden; }
-        .top-rule { height: 3px; background-color: #111111; }
-        .header { padding: 16px 28px; border-bottom: 1px solid #e5e5e5; }
-        .header img { height: 28px; display: block; }
-        .body-content { padding: 24px 28px 20px; }
-        h1 { font-size: 20px; font-weight: 700; color: #111111; margin: 0 0 14px 0; }
-        p { font-size: 14px; color: #444444; line-height: 1.65; margin: 0 0 11px 0; }
-        p strong { color: #111111; font-weight: 600; }
-        .btn-wrap { margin: 16px 0 12px; }
-        .btn { display: inline-block; background-color: #111111; color: #ffffff !important; text-decoration: none; padding: 11px 22px; border-radius: 4px; font-size: 13px; font-weight: 600; }
-        .footer { padding: 12px 28px; border-top: 1px solid #e5e5e5; background-color: #f7f7f7; }
-        .footer p { font-size: 10.5px; color: #999999; margin: 0 0 3px 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f4f5f7; margin: 0; padding: 0; }
+        .email-wrapper { padding: 40px 20px; width: 100%; box-sizing: border-box; }
+        .email-card { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .top-rule { height: 4px; background-color: #07111F; }
+        .header { padding: 24px 32px; border-bottom: 1px solid #f1f5f9; background-color: #ffffff; }
+        .header img { height: 32px; display: block; }
+        .body-content { padding: 32px; }
+        h1 { font-size: 24px; font-weight: 700; color: #07111F; margin: 0 0 16px 0; letter-spacing: -0.02em; }
+        p { font-size: 15px; color: #334155; line-height: 1.7; margin: 0 0 16px 0; }
+        p strong { color: #07111F; font-weight: 600; }
+        .btn-wrap { margin: 32px 0 24px; text-align: center; }
+        .btn { display: inline-block; background-color: #07111F; color: #ffffff !important; text-decoration: none; padding: 14px 28px; border-radius: 6px; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .btn:hover { background-color: #0f172a; }
+        .footer { padding: 24px 32px; border-top: 1px solid #f1f5f9; background-color: #f8fafc; text-align: center; }
+        .footer p { font-size: 12px; color: #64748b; margin: 0 0 4px 0; }
     </style>
 </head>
 <body>
@@ -95,20 +96,21 @@ export async function POST(
                 <img src="https://recheck.veritasco.tech/veritasco.png" alt="VeritasCo">
             </div>
             <div class="body-content">
-                <h1>Congratulations!<br>Your Internship Offer is ready.</h1>
+                <h1>Internship Offer Letter</h1>
                 <p>Dear <strong>${studentName}</strong>,</p>
-                <p>We have reviewed your application and are pleased to offer you an internship position in the <strong>${domainName}</strong> domain at VeritasCo Tech.</p>
-                <p>Please log in to your dashboard to view your official Offer Letter and proceed with the necessary steps to confirm your acceptance.</p>
+                <p>We have carefully reviewed your application and are pleased to formally offer you an internship position in the <strong>${domainName}</strong> domain at VeritasCo Tech.</p>
+                <p>To view your official Offer Letter and proceed with the necessary steps to confirm your acceptance, please log in to your dashboard.</p>
                 
                 <div class="btn-wrap">
                     <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard" class="btn">View Offer Letter</a>
                 </div>
                 
-                <p>We look forward to welcoming you to the team!</p>
-                <p style="margin-top: 20px;"><strong>VeritasCo Team</strong></p>
+                <p>We look forward to welcoming you to our team.</p>
+                <p style="margin-top: 24px;">Sincerely,<br><strong>The VeritasCo Team</strong></p>
             </div>
             <div class="footer">
-                <p>&copy; 2026 VeritasCo. All rights reserved.</p>
+                <p>This is an automated message. Please do not reply directly to this email.</p>
+                <p>&copy; 2026 VeritasCo Tech. All rights reserved.</p>
             </div>
         </div>
     </div>
