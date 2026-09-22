@@ -84,7 +84,7 @@ export default function MultiStepApplyForm({ domains, profile, feeAmount }: { do
       }
 
       const application = await res.json();
-      router.push(`/payment?applicationId=${application.id}`);
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.message);
       setIsLoading(false);
@@ -130,7 +130,7 @@ export default function MultiStepApplyForm({ domains, profile, feeAmount }: { do
           {currentStep === 2 && "Review your academic background."}
           {currentStep === 3 && "Select your desired internship domain."}
           {currentStep === 4 && "Tell us about the project you plan to build."}
-          {currentStep === 5 && "Review your application before proceeding to payment."}
+          {currentStep === 5 && "Review your application before submission."}
         </p>
       </div>
 
@@ -333,10 +333,9 @@ export default function MultiStepApplyForm({ domains, profile, feeAmount }: { do
               
               <div className="border-t border-border pt-6 flex justify-between items-center">
                 <div>
-                  <h4 className="font-bold text-[#07111F]">Internship & Processing Fee</h4>
-                  <p className="text-sm text-muted-foreground">One-time payment</p>
+                  <h4 className="font-bold text-[#07111F]">Internship Application</h4>
+                  <p className="text-sm text-muted-foreground">Submit your profile and project details for review</p>
                 </div>
-                <div className="text-2xl font-black text-[#07111F]">₹{feeAmount}</div>
               </div>
             </div>
           </div>
@@ -362,7 +361,7 @@ export default function MultiStepApplyForm({ domains, profile, feeAmount }: { do
             ) : (
               <Button type="submit" size="lg" disabled={isLoading} className="h-12 px-8 bg-primary hover:bg-primary/90 text-white">
                 {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                Continue to Secure Payment
+                Submit Application
                 <ChevronRight className="w-5 h-5 ml-2" />
               </Button>
             )}
