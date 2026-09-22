@@ -5,7 +5,9 @@ import { Button } from "@/components/ui/button";
 import { FileText, ArrowRight, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 interface OfferLetterProps {
   application: any;
@@ -14,6 +16,8 @@ interface OfferLetterProps {
 
 export function OfferLetterView({ application, profile }: OfferLetterProps) {
   const [showFullLetter, setShowFullLetter] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const letterRef = useRef<HTMLDivElement>(null);
 
   const issueDate = application.offerLetterSentAt 
     ? new Date(application.offerLetterSentAt) 
@@ -22,6 +26,26 @@ export function OfferLetterView({ application, profile }: OfferLetterProps) {
   const formattedDate = new Intl.DateTimeFormat('en-IN', {
     day: 'numeric', month: 'long', year: 'numeric'
   }).format(issueDate);
+
+  const downloadPDF = async () => {
+    if (!letterRef.current) return;
+    try {
+      setIsDownloading(true);
+      const canvas = await html2canvas(letterRef.current, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`VeritasCo_Offer_Letter_${profile.fullName.replace(/\s+/g, '_')}.pdf`);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   if (!showFullLetter) {
     return (
@@ -63,7 +87,10 @@ export function OfferLetterView({ application, profile }: OfferLetterProps) {
         <Button variant="ghost" onClick={() => setShowFullLetter(false)}>Close</Button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-xl border border-border p-8 md:p-12 max-w-4xl mx-auto relative overflow-hidden">
+      <div 
+        ref={letterRef}
+        className="bg-white rounded-2xl shadow-xl border border-border p-8 md:p-12 max-w-4xl mx-auto relative overflow-hidden"
+      >
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-full h-2 bg-primary" />
         <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/5 rounded-full blur-2xl" />
@@ -127,9 +154,18 @@ export function OfferLetterView({ application, profile }: OfferLetterProps) {
         </div>
       </div>
 
-      <div className="flex justify-end pt-4">
+      <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
+        <Button 
+          variant="outline" 
+          size="lg" 
+          onClick={downloadPDF}
+          disabled={isDownloading}
+          className="h-14 px-8 text-lg"
+        >
+          {isDownloading ? "Generating PDF..." : "Download as PDF"}
+        </Button>
         <Link href={`/payment?applicationId=${application.id}`}>
-          <Button size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20">
+          <Button size="lg" className="h-14 px-8 text-lg bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 w-full sm:w-auto">
             Accept Offer & Proceed to Payment
             <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
