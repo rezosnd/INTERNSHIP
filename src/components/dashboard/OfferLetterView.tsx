@@ -32,7 +32,12 @@ export function OfferLetterView({ application, profile }: OfferLetterProps) {
     if (!letterRef.current) return;
     try {
       setIsDownloading(true);
-      const canvas = await html2canvas(letterRef.current, { scale: 2 });
+      const canvas = await html2canvas(letterRef.current, { 
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: true,
+      });
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
       
@@ -98,7 +103,7 @@ export function OfferLetterView({ application, profile }: OfferLetterProps) {
         
         <div className="flex justify-between items-start mb-12 relative z-10">
           <div>
-            <Image src="/images/veritasco.png" alt="VeritasCo Logo" width={180} height={45} className="h-10 w-auto object-contain mb-6" />
+            <img src="/images/veritasco.png" alt="VeritasCo Logo" className="h-10 w-auto object-contain mb-6" />
             <h1 className="text-2xl md:text-4xl font-bold text-[#07111F] tracking-tight">OFFER OF INTERNSHIP</h1>
           </div>
           <div className="text-right text-muted-foreground text-sm">
