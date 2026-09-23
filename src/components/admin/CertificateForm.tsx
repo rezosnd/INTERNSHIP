@@ -59,6 +59,7 @@ const domains = [
   "Flutter", "Java", "Python", "Machine Learning", "Artificial Intelligence",
   "Cloud Computing", "AWS", "Azure", "DevOps", "Cyber Security", "Data Science",
   "Android", "UI UX", "Graphic Design", "Digital Marketing", "Business Analytics",
+  "Operation Intern", "Growth Intern"
 ]
 
 const grades = [

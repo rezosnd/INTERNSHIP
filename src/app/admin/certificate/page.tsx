@@ -56,32 +56,30 @@ function CertificateEditorContent() {
   }, [applicationId, updateData])
 
   const downloadPdf = async () => {
-    if (!appData) {
-      alert("Please select a student from the Admin Dashboard first!");
-      return;
-    }
     const element = document.getElementById('certificate-preview')
     if (!element) return
     
     setIsGenerating(true)
     try {
-      // 1. Save to database first so the QR Code link is valid
-      const saveRes = await fetch("/api/admin/certificate/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          applicationId: appData.id,
-          certificateId: useCertificateStore.getState().data.certificateId,
-          studentName: useCertificateStore.getState().data.studentName,
-          collegeName: useCertificateStore.getState().data.collegeName,
-          domain: useCertificateStore.getState().data.domain,
-          startDate: useCertificateStore.getState().data.startDate,
-          endDate: useCertificateStore.getState().data.endDate,
-          issueDate: useCertificateStore.getState().data.issueDate,
+      if (appData) {
+        // 1. Save to database first so the QR Code link is valid
+        const saveRes = await fetch("/api/admin/certificate/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            applicationId: appData.id,
+            certificateId: useCertificateStore.getState().data.certificateId,
+            studentName: useCertificateStore.getState().data.studentName,
+            collegeName: useCertificateStore.getState().data.collegeName,
+            domain: useCertificateStore.getState().data.domain,
+            startDate: useCertificateStore.getState().data.startDate,
+            endDate: useCertificateStore.getState().data.endDate,
+            issueDate: useCertificateStore.getState().data.issueDate,
+          })
         })
-      })
 
-      if (!saveRes.ok) throw new Error("Failed to save certificate")
+        if (!saveRes.ok) throw new Error("Failed to save certificate")
+      }
 
       // 2. Generate Image & PDF
       const imgData = await htmlToImage.toJpeg(element, { 
@@ -99,7 +97,8 @@ function CertificateEditorContent() {
       })
       
       pdf.addImage(imgData, 'JPEG', 0, 0, width, height)
-      pdf.save(`VeritasCo_Certificate_${appData?.user?.studentProfile?.fullName?.replace(/\s+/g, '_') || 'Student'}.pdf`)
+      const studentName = appData?.user?.studentProfile?.fullName || useCertificateStore.getState().data.studentName || 'Student';
+      pdf.save(`VeritasCo_Certificate_${studentName.replace(/\s+/g, '_')}.pdf`)
     } catch (err) {
       console.error(err)
       alert("Error generating certificate.")
@@ -109,10 +108,6 @@ function CertificateEditorContent() {
   }
 
   const sendEmail = async () => {
-    if (!appData) {
-      alert("Please select a student from the Admin Dashboard first!");
-      return;
-    }
     const defaultEmail = appData?.user?.email || ""
     const email = window.prompt("Enter student's email address to send certificate:", defaultEmail)
     if (!email) return
@@ -122,24 +117,26 @@ function CertificateEditorContent() {
     
     setIsSending(true)
     try {
-      // 1. Save to database first
-      const saveRes = await fetch("/api/admin/certificate/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          applicationId: appData.id,
-          certificateId: useCertificateStore.getState().data.certificateId,
-          studentName: useCertificateStore.getState().data.studentName,
-          collegeName: useCertificateStore.getState().data.collegeName,
-          domain: useCertificateStore.getState().data.domain,
-          startDate: useCertificateStore.getState().data.startDate,
-          endDate: useCertificateStore.getState().data.endDate,
-          issueDate: useCertificateStore.getState().data.issueDate,
+      if (appData) {
+        // 1. Save to database first
+        const saveRes = await fetch("/api/admin/certificate/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            applicationId: appData.id,
+            certificateId: useCertificateStore.getState().data.certificateId,
+            studentName: useCertificateStore.getState().data.studentName,
+            collegeName: useCertificateStore.getState().data.collegeName,
+            domain: useCertificateStore.getState().data.domain,
+            startDate: useCertificateStore.getState().data.startDate,
+            endDate: useCertificateStore.getState().data.endDate,
+            issueDate: useCertificateStore.getState().data.issueDate,
+          })
         })
-      })
 
-      if (!saveRes.ok) {
-        throw new Error("Failed to save certificate to database")
+        if (!saveRes.ok) {
+          throw new Error("Failed to save certificate to database")
+        }
       }
 
       // 2. Generate Image
@@ -149,7 +146,8 @@ function CertificateEditorContent() {
       })
 
       // 3. Send Email
-      const certificateId = useCertificateStore.getState().data.certificateId || appData.certificate?.certificateId;
+      const certificateId = useCertificateStore.getState().data.certificateId || appData?.certificate?.certificateId;
+      const studentName = appData?.user?.studentProfile?.fullName?.split(" ")[0] || useCertificateStore.getState().data.studentName.split(" ")[0] || "Student";
       
       const res = await fetch("/api/admin/certificate/email", {
         method: "POST",
@@ -157,7 +155,7 @@ function CertificateEditorContent() {
         body: JSON.stringify({ 
           email, 
           imageData: imgData,
-          studentName: appData?.user?.studentProfile?.fullName?.split(" ")[0] || "Student",
+          studentName,
           verificationUrl: `${window.location.origin}/verify/${certificateId}`
         })
       })
@@ -221,7 +219,7 @@ function CertificateEditorContent() {
               {isSending ? (
                 <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Sending Email...</>
               ) : (
-                <><Send className="w-4 h-4 mr-2" /> Save & Email Certificate</>
+                <><Send className="w-4 h-4 mr-2" /> Generate & Send Email</>
               )}
             </Button>
             <Button 
