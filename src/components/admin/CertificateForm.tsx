@@ -136,7 +136,7 @@ export function CertificateForm({ prefillData }: { prefillData?: any }) {
       rollNumber: "",
       registrationId: `VCT-${new Date().getFullYear()}-${Date.now().toString().slice(-6)}`,
       certificateId: `VCT-CERT-${new Date().getFullYear()}-${Math.floor(Math.random() * 1000).toString().padStart(3, "0")}`,
-      domain: "Consulting Analyst / Business Analyst",
+      domain: "Web Development",
       startDate: "2026-06-01",
       endDate: "2026-08-31",
       issueDate: new Date().toISOString().split('T')[0],

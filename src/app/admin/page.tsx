@@ -105,6 +105,12 @@ export default async function AdminDashboard() {
             <h1 className="text-3xl font-bold tracking-tight text-[#07111F]">Admin Dashboard</h1>
             <p className="text-muted-foreground mt-2">Platform overview and management.</p>
           </div>
+          <Link href="/admin/certificate">
+            <Button className="bg-[#4F8DFF] hover:bg-[#4F8DFF]/90 text-white font-bold h-10 px-4 shadow-lg shadow-blue-900/20">
+              <Award className="w-4 h-4 mr-2" />
+              Generate Manual Certificate
+            </Button>
+          </Link>
         </div>
 
         {/* KPIs */}
